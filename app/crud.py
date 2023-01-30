@@ -1,6 +1,4 @@
-# from ..core.database import client
 from pymongo import MongoClient
-from requests import delete
 
 # client = MongoClient("localhost", 27017)
 
@@ -27,6 +25,22 @@ class CRUDMongo:
     def delete(self, name=None, surname=None, age=None, profession=None):
         self.collection.delete_one({"name": "Amil"})
 
+    def insert_many(self):
+        data = [
+            {
+                "name": "Will",
+                "surname": "Smith",
+                "age": 50
+            },
+            {
+                "name": "John",
+                "surname": "Doe",
+                "age": 49
+            }
+        ]
+        inserted_res = self.collection.insert_many(data)
+        print(inserted_res.inserted_ids)
+
     def call(self):
         self.select_db()
         data = {
@@ -35,10 +49,12 @@ class CRUDMongo:
                 "age": 24,
                 "profession": "Developer"
             }
-        self.create(data)
-        self.read(name="Amil")
-        self.update(name="Amil", age=28)
-        self.delete(name="Amil")
+        self.insert_many()
+        # self.create(data)
+        # self.read(name="Amil")
+        # self.update(name="Amil", age=28)
+        # self.delete(name="Amil")
 
 
 instance = CRUDMongo().call()
+
